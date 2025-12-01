@@ -1,7 +1,7 @@
-#  Pre-Entrega Automation Testing - Germán Rodríguez
+#  Entrega Final Automation Testing - Germán Rodríguez
 
 ##  Propósito del proyecto
-Este proyecto forma parte de la **pre-entrega del curso de Automatización con Python y Selenium**.  
+Este proyecto forma parte de la **entrega final del curso de Automatización con Python y Selenium**.  
 Su objetivo es automatizar flujos básicos de navegación en el sitio [saucedemo.com](https://www.saucedemo.com), validando el login, la navegación por el catálogo y la interacción con el carrito de compras.
 
 El trabajo demuestra el uso de **Selenium WebDriver**, **Pytest** y **esperas explícitas**, así como la correcta estructura del proyecto y generación de reportes automáticos.
