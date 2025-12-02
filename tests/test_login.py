@@ -1,33 +1,29 @@
 import pytest
-from selenium.webdriver.common.by import By
+from pages.login_page import LoginPage
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
-from utils.helpers import login
+
 
 def test_login_exitoso(driver):
-    """Verifica que un usuario válido pueda iniciar sesión correctamente en saucedemo.com."""
-    
-    driver.get("https://www.saucedemo.com")
-    
-    # Espera explícita para campo de usuario
-    WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, "user-name"))
-    )
-    
-    # Login usando helper
-    login(driver)
+    """Verifica que un usuario válido pueda iniciar sesión correctamente usando POM."""
 
-    # Validar redirección a /inventory.html
+    login_page = LoginPage(driver)
+    login_page.open()
+
+    # Ejecutar login
+    login_page.login("standard_user", "secret_sauce")
+
+    # Validar redirección
     WebDriverWait(driver, 10).until(EC.url_contains("/inventory.html"))
-    assert "/inventory.html" in driver.current_url, "No se redirigió correctamente a la página de inventario."
-    
-    # Validar título
+    assert "/inventory.html" in driver.current_url, "No se redirigió a inventory."
+
+    # Validar título de la página
     titulo = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.CLASS_NAME, "title"))
+        EC.presence_of_element_located(("class name", "title"))
     ).text
     assert titulo == "Products", f"Se esperaba 'Products', se encontró '{titulo}'"
-    
-    # Screenshot
+
+    # Screenshot final
     timestamp = time.strftime("%Y%m%d-%H%M%S")
     driver.save_screenshot(f"reports/login_exitoso_{timestamp}.png")

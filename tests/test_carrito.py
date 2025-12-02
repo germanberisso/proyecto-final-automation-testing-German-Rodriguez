@@ -1,40 +1,36 @@
-import pytest
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 import time
+from pages.inventory_page import InventoryPage
+from pages.cart_page import CartPage
+
 
 def test_agregar_producto_al_carrito(login_in_driver):
-    """Verifica que se pueda agregar un producto al carrito y que aparezca correctamente."""
-    
-    driver = login_in_driver  # driver ya logueado
+    """Verifica que se pueda agregar un producto al carrito usando Page Object Model."""
 
-    # Esperar a que carguen productos
-    WebDriverWait(driver, 10).until(
-        EC.presence_of_all_elements_located((By.CLASS_NAME, "inventory_item"))
-    )
+    driver = login_in_driver
 
-    # Seleccionar primer producto y click en "Add to cart"
-    primer_boton = driver.find_element(By.CSS_SELECTOR, ".inventory_item button.btn_inventory")
-    primer_boton.click()
+    inventory = InventoryPage(driver)
+    cart = CartPage(driver)
 
-    # Verificar ícono carrito
-    carrito_icono = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.CLASS_NAME, "shopping_cart_badge"))
-    )
-    assert carrito_icono.text == "1", f"Contador carrito debería ser '1', pero se encontró '{carrito_icono.text}'"
+    # Esperar a que carguen los productos
+    inventory.wait_for_products()
+
+    # Agregar primer producto
+    inventory.add_first_product()
+
+    # Verificar contador del carrito
+    cart_count = inventory.get_cart_count()
+    assert cart_count == "1", f"Se esperaba '1' en el carrito, se encontró '{cart_count}'"
 
     # Ir al carrito
-    driver.find_element(By.CLASS_NAME, "shopping_cart_link").click()
-    WebDriverWait(driver, 10).until(EC.url_contains("/cart.html"))
+    inventory.go_to_cart()
 
-    # Verificar producto en carrito
-    producto_en_carrito = driver.find_elements(By.CLASS_NAME, "cart_item")
-    assert len(producto_en_carrito) > 0, "Carrito vacío, no se agregó producto."
+    # Verificar producto en el carrito
+    productos = cart.get_products()
+    assert len(productos) > 0, "El carrito aparece vacío pero se agregó un producto."
 
-    # Mostrar nombre
-    nombre_producto = producto_en_carrito[0].find_element(By.CLASS_NAME, "inventory_item_name").text
-    print(f"Producto en el carrito: {nombre_producto}")
+    # Obtener nombre del primer producto
+    nombre_producto = cart.get_first_product_name()
+    print(f"Producto agregado al carrito: {nombre_producto}")
 
     # Screenshot
     timestamp = time.strftime("%Y%m%d-%H%M%S")

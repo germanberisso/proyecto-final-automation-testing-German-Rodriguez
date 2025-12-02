@@ -1,35 +1,35 @@
-import pytest
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 import time
+from pages.inventory_page import InventoryPage
+
 
 def test_verificar_catalogo(login_in_driver):
-    """Verifica que el catálogo de productos se muestre correctamente tras el login."""
-    
-    driver = login_in_driver  # driver ya logueado
+    """Verifica que el catálogo y los elementos principales se muestren correctamente."""
 
-    # Espera explícita para el título
-    titulo = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.CLASS_NAME, "title"))
-    ).text
+    driver = login_in_driver
+    inventory = InventoryPage(driver)
+
+    # Esperar a que carguen los productos
+    inventory.wait_for_products()
+
+    # Validar título
+    titulo = driver.find_element(*InventoryPage.TITLE).text
     assert titulo == "Products", f"Se esperaba 'Products', pero se encontró '{titulo}'"
 
-    # Verificar productos visibles
-    productos = driver.find_elements(By.CLASS_NAME, "inventory_item")
+    # Verificar que haya productos
+    productos = driver.find_elements(*InventoryPage.ITEM_CONTAINER)
     assert len(productos) > 0, "No se encontraron productos visibles."
 
-    # Validar elementos importantes
-    menu_boton = driver.find_element(By.ID, "react-burger-menu-btn")
-    filtro = driver.find_element(By.CLASS_NAME, "product_sort_container")
+    # Validar elementos visibles del catálogo
+    menu_boton = driver.find_element(*InventoryPage.MENU_BTN)
+    filtro = driver.find_element(*InventoryPage.SORT_CONTAINER)
 
-    assert menu_boton.is_displayed(), "Botón de menú no visible."
-    assert filtro.is_displayed(), "Selector de filtro no visible."
+    assert menu_boton.is_displayed(), "El botón del menú no es visible."
+    assert filtro.is_displayed(), "El selector de filtro no es visible."
 
-    # Mostrar primer producto
+    # Mostrar información del primer producto
     primer_producto = productos[0]
-    nombre = primer_producto.find_element(By.CLASS_NAME, "inventory_item_name").text
-    precio = primer_producto.find_element(By.CLASS_NAME, "inventory_item_price").text
+    nombre = primer_producto.find_element(*InventoryPage.PRODUCT_NAME).text
+    precio = primer_producto.find_element(*InventoryPage.PRODUCT_PRICE).text
     print(f"Primer producto: {nombre} - Precio: {precio}")
 
     # Screenshot

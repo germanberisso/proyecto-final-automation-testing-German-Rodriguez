@@ -14,6 +14,7 @@ El trabajo demuestra el uso de **Selenium WebDriver**, **Pytest** y **esperas ex
 -  Pytest  
 -  Git y GitHub (control de versiones)
 -  Pytest-HTML (para reportes de ejecución)
+-  POM(Page Object Model)
 
 ---
 
@@ -22,3 +23,35 @@ El trabajo demuestra el uso de **Selenium WebDriver**, **Pytest** y **esperas ex
 1. **Clonar el repositorio:**
    ```bash
    git clone https://github.com/germanberisso/proyecto-final-automation-testing-German-Rodriguez
+
+
+## Estructura del proyecto
+proyecto-final-automation-testing-German-Rodriguez/
+│
+├── tests/                  # Contiene todos los tests de UI y API
+│   ├── test_carrito.py
+│   ├── test_catalogo.py
+│   ├── test_login.py
+│   └── api/
+│       └── test_api_reqres.py
+│
+├── pages/                  # Clases POM para separar la lógica de UI
+│   ├── login_page.py
+│   ├── catalog_page.py
+│   └── carrito_page.py
+│
+├── utils/                  # Funciones auxiliares, screenshots, reportes
+│
+├── reports/                # Reportes generados por Pytest-HTML
+│
+├── requirements.txt        # Dependencias del proyecto
+└── README.md
+
+## Conclusion 
+
+Este proyecto demuestra la implementación completa de un framework de automatización con:
+Buenas prácticas de QA Automation
+Separación clara entre lógica de UI y lógica de pruebas (POM)
+Ejecución robusta mediante pytest
+Logs + reportes + screenshots
+Pruebas API y UI combinadas
