@@ -4,9 +4,7 @@ from unittest.mock import patch
 
 BASE_URL = "https://reqres.in/api"
 
-# ---------------------------
 # Fixture para usuario temporal
-# ---------------------------
 @pytest.fixture(params=[
     {"name": "TempUser0", "job": "QA Automation"},
     {"name": "TempUser1", "job": "Tester"},
@@ -15,9 +13,8 @@ BASE_URL = "https://reqres.in/api"
 def temp_user(request):
     return request.param
 
-# ---------------------------
+
 # Mock para GET /users
-# ---------------------------
 @pytest.fixture
 def mock_get_users():
     with patch("requests.get") as mock_get:
@@ -35,9 +32,8 @@ def mock_get_users():
         }
         yield mock_get
 
-# ---------------------------
+
 # Mock para POST /users
-# ---------------------------
 @pytest.fixture
 def mock_create_user():
     with patch("requests.post") as mock_post:
@@ -51,18 +47,15 @@ def mock_create_user():
         mock_post.side_effect = fake_post
         yield mock_post
 
-# ---------------------------
 # Mock para DELETE /users
-# ---------------------------
 @pytest.fixture
 def mock_delete_user():
     with patch("requests.delete") as mock_delete:
         mock_delete.return_value.status_code = 204
         yield mock_delete
 
-# ---------------------------
+
 # TESTS
-# ---------------------------
 
 def test_get_users(mock_get_users):
     response = requests.get(f"{BASE_URL}/users?page=2")

@@ -58,3 +58,4 @@ class InventoryPage:
         """Navega al carrito y espera a que cargue."""
         self.driver.find_element(*self.CART_LINK).click()
         self.wait.until(EC.url_contains("/cart.html"))
+        
