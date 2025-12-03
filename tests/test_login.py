@@ -23,7 +23,3 @@ def test_login_exitoso(driver):
         EC.presence_of_element_located(("class name", "title"))
     ).text
     assert titulo == "Products", f"Se esperaba 'Products', se encontró '{titulo}'"
-
-    # Screenshot final
-    timestamp = time.strftime("%Y%m%d-%H%M%S")
-    driver.save_screenshot(f"reports/login_exitoso_{timestamp}.png")

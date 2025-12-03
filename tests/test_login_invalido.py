@@ -18,7 +18,3 @@ def test_login_invalido(driver):
     # Validar mensaje esperado
     assert error_text is not None, "No apareció mensaje de error."
     assert "Epic sadface" in error_text, f"Mensaje inesperado: {error_text}"
-
-    # Screenshot del intento fallido
-    timestamp = time.strftime("%Y%m%d-%H%M%S")
-    driver.save_screenshot(f"reports/login_invalido_{timestamp}.png")

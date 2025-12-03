@@ -31,7 +31,3 @@ def test_verificar_catalogo(login_in_driver):
     nombre = primer_producto.find_element(*InventoryPage.PRODUCT_NAME).text
     precio = primer_producto.find_element(*InventoryPage.PRODUCT_PRICE).text
     print(f"Primer producto: {nombre} - Precio: {precio}")
-
-    # Screenshot
-    timestamp = time.strftime("%Y%m%d-%H%M%S")
-    driver.save_screenshot(f"reports/catalogo_ok_{timestamp}.png")

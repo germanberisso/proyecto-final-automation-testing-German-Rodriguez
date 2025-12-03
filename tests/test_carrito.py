@@ -32,6 +32,3 @@ def test_agregar_producto_al_carrito(login_in_driver):
     nombre_producto = cart.get_first_product_name()
     print(f"Producto agregado al carrito: {nombre_producto}")
 
-    # Screenshot
-    timestamp = time.strftime("%Y%m%d-%H%M%S")
-    driver.save_screenshot(f"reports/carrito_ok_{timestamp}.png")

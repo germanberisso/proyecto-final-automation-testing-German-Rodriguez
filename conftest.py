@@ -22,29 +22,29 @@ def pytest_addoption(parser):
 
 @pytest.fixture
 def driver(request):
-    """Inicializa el navegador según parámetro y lo cierra al final."""
     browser = request.config.getoption("--browser")
 
     if browser == "chrome":
         service = Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service)
-
     elif browser == "edge":
         from selenium.webdriver.edge.service import Service as EdgeService
         from webdriver_manager.microsoft import EdgeChromiumDriverManager
         service = EdgeService(EdgeChromiumDriverManager().install())
         driver = webdriver.Edge(service=service)
 
-    else:
-        raise ValueError(f"Navegador no soportado: {browser}")
-
     driver.maximize_window()
     logger.info(f"Navegador iniciado: {browser}")
 
     yield driver
 
-    driver.quit()
-    logger.info("Navegador cerrado")
+    try:
+        driver.quit()
+        logger.info("Navegador cerrado")
+    except Exception as e:
+        # Evitar que teardown falle y dispare screenshot
+        logger.warning(f"Error al cerrar navegador: {e}")
+        pass
 
 
 @pytest.fixture
@@ -58,12 +58,12 @@ def login_in_driver(driver):
 # CAPTURA DE PANTALLA EN CASO DE ERROR
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item):
-    """Toma screenshot automáticamente si un test falla."""
     outcome = yield
-    result = outcome.get_result()
+    report = outcome.get_result()
 
-    if result.failed:
-        driver = item.funcargs.get("driver")  # verifica si el fixture driver existe
+    # Solo capturar screenshot si el test FALLA durante la fase de "call"
+    if report.failed and report.when == "call":
+        driver = item.funcargs.get("driver", None)
         if driver:
             test_name = item.name
             logger.error(f"Test fallado: {test_name}. Capturando screenshot...")
