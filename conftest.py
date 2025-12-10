@@ -26,7 +26,11 @@ def driver(request):
 
     if browser == "chrome":
         service = Service(ChromeDriverManager().install())
-        driver = webdriver.Chrome(service=service)
+        options = webdriver.ChromeOptions()
+        options.add_argument("--headless")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        driver = webdriver.Chrome(service=service, options=options)
     elif browser == "edge":
         from selenium.webdriver.edge.service import Service as EdgeService
         from webdriver_manager.microsoft import EdgeChromiumDriverManager
