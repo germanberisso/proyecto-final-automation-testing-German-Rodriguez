@@ -54,4 +54,4 @@ Buenas prácticas de QA Automation
 Separación clara entre lógica de UI y lógica de pruebas (POM)
 Ejecución robusta mediante pytest
 Logs + reportes + screenshots
-Pruebas API y UI combinadas
+Pruebas API y UI combinadas.
