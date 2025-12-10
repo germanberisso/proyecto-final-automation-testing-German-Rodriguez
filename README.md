@@ -28,23 +28,23 @@ El trabajo demuestra el uso de **Selenium WebDriver**, **Pytest** y **esperas ex
 ## Estructura del proyecto
 proyecto-final-automation-testing-German-Rodriguez/
 │
-├── tests/                  # Contiene todos los tests de UI y API
+├── tests/                  
 │   ├── test_carrito.py
 │   ├── test_catalogo.py
 │   ├── test_login.py
 │   └── api/
 │       └── test_api_reqres.py
 │
-├── pages/                  # Clases POM para separar la lógica de UI
+├── pages/                  
 │   ├── login_page.py
 │   ├── catalog_page.py
 │   └── carrito_page.py
 │
-├── utils/                  # Funciones auxiliares, screenshots, reportes
+├── utils/                  
 │
-├── reports/                # Reportes generados por Pytest-HTML
+├── reports/                
 │
-├── requirements.txt        # Dependencias del proyecto
+├── requirements.txt        
 └── README.md
 
 ## Conclusion 
